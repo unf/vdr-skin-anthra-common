@@ -42,7 +42,7 @@ build() {
     fi
     rm -rf "$tmp/Makefile" "$tmp/Make.config" "$tmp/.make.log" "$tmp"/xml* \
            "$tmp/anthra_conf" "$tmp/text2skin-1.1.rng"
-    chmod 755 "$tmp"
+    chmod -R u+rwX,go+rX,go-w "$tmp"
     rm -rf "$DSTBASE/$skin"
     mv "$tmp" "$DSTBASE/$skin"
     echo "vdr-skin-anthra-update: $skin built from $conf"
