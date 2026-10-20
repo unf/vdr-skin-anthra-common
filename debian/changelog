@@ -1,0 +1,8 @@
+vdr-skin-anthra-common (2026.10.20) trixie; urgency=medium
+
+  * Initial release: vdr-skin-anthra-update builds the anthra skins from
+    /usr/share/vdr-skin-anthra and the conffiles in /etc/vdr/anthra into
+    /var/lib/vdr/plugins/text2skin. Replaces the former chown of the skin
+    directories in /usr to vdr.
+
+ -- Frank Neumann <fnu@vdr-portal.de>  Tue, 20 Oct 2026 13:33:30 +0200

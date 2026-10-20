@@ -1,0 +1,18 @@
+Source: vdr-skin-anthra-common
+Section: video
+Priority: optional
+Maintainer: Frank Neumann <fnu@vdr-portal.de>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.2
+Rules-Requires-Root: no
+
+Package: vdr-skin-anthra-common
+Architecture: all
+Multi-Arch: foreign
+Depends: make, ${misc:Depends}
+Description: common files for the anthra skins of the VDR text2skin plugin
+ The anthra skins are generated from XML parts according to a set of
+ options. This package provides vdr-skin-anthra-update, which builds a
+ skin from its sources in /usr/share/vdr-skin-anthra and its options in
+ /etc/vdr/anthra into /var/lib/vdr/plugins/text2skin, so local options
+ survive upgrades.

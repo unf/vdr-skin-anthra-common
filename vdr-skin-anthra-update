@@ -1,0 +1,91 @@
+#!/bin/sh
+# vdr-skin-anthra-update - build anthra skins for the VDR text2skin plugin
+# from the skin sources in /usr/share/vdr-skin-anthra/<SKIN> and the options
+# in /etc/vdr/anthra/<SKIN>.conf into /var/lib/vdr/plugins/text2skin/<SKIN>.
+
+set -e
+
+SRCBASE=/usr/share/vdr-skin-anthra
+CONFDIR=/etc/vdr/anthra
+DSTBASE=/var/lib/vdr/plugins/text2skin
+
+usage() {
+    echo "Usage: vdr-skin-anthra-update [SKIN ...]"
+    echo "       vdr-skin-anthra-update --remove SKIN ..."
+    echo "Without SKIN all installed anthra skins are built."
+}
+
+build() {
+    skin=$1
+    src=$SRCBASE/$skin
+    conf=$CONFDIR/$skin.conf
+    if [ ! -d "$src" ]; then
+        echo "vdr-skin-anthra-update: $skin is not installed ($src missing)" >&2
+        return 1
+    fi
+    if [ ! -r "$conf" ]; then
+        echo "vdr-skin-anthra-update: $conf missing" >&2
+        return 1
+    fi
+    mkdir -p "$DSTBASE"
+    tmp=$(mktemp -d "$DSTBASE/.$skin.XXXXXX")
+    cp -a "$src/." "$tmp/"
+    { echo 'SHELL := /bin/bash'; cat "$conf"; } > "$tmp/Make.config"
+    if ! make --no-print-directory -C "$tmp" "$skin.skin" > "$tmp/.make.log" 2>&1; then
+        cat "$tmp/.make.log" >&2
+        rm -rf "$tmp"
+        echo "vdr-skin-anthra-update: building $skin failed, $DSTBASE/$skin unchanged" >&2
+        return 1
+    fi
+    if grep -q 'ERROR' "$tmp/.make.log"; then
+        sed -e 's/\x1b\[[0-9;]*m//g' "$tmp/.make.log" | grep 'ERROR' >&2
+    fi
+    rm -rf "$tmp/Makefile" "$tmp/Make.config" "$tmp/.make.log" "$tmp"/xml* \
+           "$tmp/anthra_conf" "$tmp/text2skin-1.1.rng"
+    chmod 755 "$tmp"
+    rm -rf "$DSTBASE/$skin"
+    mv "$tmp" "$DSTBASE/$skin"
+    echo "vdr-skin-anthra-update: $skin built from $conf"
+}
+
+case "$1" in
+    -h|--help)
+        usage
+        exit 0
+        ;;
+    --remove)
+        shift
+        [ $# -gt 0 ] || { usage >&2; exit 1; }
+        for skin in "$@"; do
+            case "$skin" in
+                ""|*/*|.*) echo "vdr-skin-anthra-update: invalid skin name '$skin'" >&2; exit 1 ;;
+            esac
+            rm -rf "${DSTBASE:?}/$skin"
+        done
+        exit 0
+        ;;
+    -*)
+        usage >&2
+        exit 1
+        ;;
+esac
+
+if [ "$(id -u)" != 0 ]; then
+    echo "vdr-skin-anthra-update: must be run as root" >&2
+    exit 1
+fi
+
+rc=0
+if [ $# -eq 0 ]; then
+    for conf in "$CONFDIR"/*.conf; do
+        [ -e "$conf" ] || continue
+        skin=$(basename "$conf" .conf)
+        [ -d "$SRCBASE/$skin" ] || continue
+        build "$skin" || rc=1
+    done
+else
+    for skin in "$@"; do
+        build "$skin" || rc=1
+    done
+fi
+exit $rc

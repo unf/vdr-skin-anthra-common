@@ -1,0 +1,43 @@
+.TH VDR-SKIN-ANTHRA-UPDATE 8 "October 2026" "vdr-skin-anthra-common" "VDR"
+.SH NAME
+vdr-skin-anthra-update \- build anthra skins for the VDR text2skin plugin
+.SH SYNOPSIS
+.B vdr-skin-anthra-update
+.RI [ SKIN ...]
+.br
+.B vdr-skin-anthra-update \-\-remove
+.IR SKIN ...
+.SH DESCRIPTION
+The anthra skins are generated from XML parts according to a set of options
+(channel logos, EPG images, fonts, menu logos and more).
+.B vdr-skin-anthra-update
+builds a skin from its sources in
+.I /usr/share/vdr-skin-anthra/SKIN
+and its options in
+.I /etc/vdr/anthra/SKIN.conf
+into
+.IR /var/lib/vdr/plugins/text2skin/SKIN ,
+where text2skin finds it.
+.PP
+Without arguments all installed anthra skins are built. The skin packages
+call it on installation and upgrade, so local options survive upgrades.
+After changing the options run it again and restart VDR.
+.SH OPTIONS
+.TP
+.B \-\-remove
+Remove the built skins, used by the skin packages on removal.
+.TP
+.B \-h, \-\-help
+Show a short usage message.
+.SH FILES
+.TP
+.I /etc/vdr/anthra/SKIN.conf
+Options of the skin (make syntax, slashes in paths escaped with backslashes).
+.TP
+.I /usr/share/vdr-skin-anthra/SKIN
+Skin sources.
+.TP
+.I /var/lib/vdr/plugins/text2skin/SKIN
+Built skin.
+.SH SEE ALSO
+.BR vdr (1)

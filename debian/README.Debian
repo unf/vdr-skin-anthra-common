@@ -1,0 +1,24 @@
+anthra skins for text2skin on Debian
+====================================
+
+The anthra skins by Tomas Saxer are generated from XML parts according to a
+set of options. Each skin package installs
+
+  /usr/share/vdr-skin-anthra/SKIN   the skin sources (read-only)
+  /etc/vdr/anthra/SKIN.conf         the options (conffile)
+
+and builds the skin into /var/lib/vdr/plugins/text2skin/SKIN on
+installation and upgrade.
+
+To change the skin, edit /etc/vdr/anthra/SKIN.conf, then run
+
+  vdr-skin-anthra-update SKIN
+
+and restart VDR. Your options are kept on upgrades, dpkg asks if the
+default options of a new package version differ from yours.
+
+Channel logos, separator logos and EPG images are not part of the
+packages, set their paths in the options (slashes escaped with
+backslashes). Logos for the anthra skins: http://www.anthra.de/anthra-skins/
+
+ -- Frank Neumann <fnu@vdr-portal.de>  Tue, 20 Oct 2026 14:00:00 +0200
