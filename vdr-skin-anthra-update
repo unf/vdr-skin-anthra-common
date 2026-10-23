@@ -37,6 +37,13 @@ build() {
         echo "vdr-skin-anthra-update: building $skin failed, $DSTBASE/$skin unchanged" >&2
         return 1
     fi
+    case "$skin" in
+        anthra_1920_*)
+            # 1920x1080 skin: screenBase abs1920x1080 lets text2skin scale it
+            # to the real OSD size (e.g. 3840x2160), on 1920x1080 nothing changes
+            sed -i '1,5s/screenBase="absolute"/screenBase="abs1920x1080"/' "$tmp/$skin.skin"
+            ;;
+    esac
     if grep -q 'ERROR' "$tmp/.make.log"; then
         sed -e 's/\x1b\[[0-9;]*m//g' "$tmp/.make.log" | grep 'ERROR' >&2
     fi
