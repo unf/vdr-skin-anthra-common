@@ -44,6 +44,9 @@ build() {
             sed -i '1,5s/screenBase="absolute"/screenBase="abs1920x1080"/' "$tmp/$skin.skin"
             ;;
     esac
+    # true colour: all windows with bpp 32, text2skin falls back to 256
+    # colours if the output device has no true colour OSD
+    sed -i -E '/<window /s/bpp="[0-9]+"/bpp="32"/' "$tmp/$skin.skin"
     if grep -q 'ERROR' "$tmp/.make.log"; then
         sed -e 's/\x1b\[[0-9;]*m//g' "$tmp/.make.log" | grep 'ERROR' >&2
     fi

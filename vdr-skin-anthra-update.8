@@ -22,6 +22,11 @@ where text2skin finds it.
 Without arguments all installed anthra skins are built. The skin packages
 call it on installation and upgrade, so local options survive upgrades.
 After changing the options run it again and restart VDR.
+.PP
+The skins are built for a true colour OSD (all windows with bpp 32);
+text2skin falls back to 256 colours if the output device has none. The
+1920x1080 skins get screenBase abs1920x1080, so text2skin scales them to
+the real OSD size, e.g. 3840x2160.
 .SH OPTIONS
 .TP
 .B \-\-remove

@@ -10,6 +10,7 @@ Package: vdr-skin-anthra-common
 Architecture: all
 Multi-Arch: foreign
 Depends: make, ${misc:Depends}
+Breaks: vdr-plugin-text2skin (<< 1.3.4+git20170702-4fnu0~)
 Description: common files for the anthra skins of the VDR text2skin plugin
  The anthra skins are generated from XML parts according to a set of
  options. This package provides vdr-skin-anthra-update, which builds a

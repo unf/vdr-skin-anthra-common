@@ -1,3 +1,14 @@
+vdr-skin-anthra-common (2026.10.24) trixie; urgency=medium
+
+  * vdr-skin-anthra-update: build all anthra skins for a true colour OSD
+    (windows with bpp 32): channel logos and images in full colour with
+    alpha blending, smoother text; text2skin falls back to 256 colours
+    without a true colour OSD
+  * Breaks text2skin without true colour mode (<< 1.3.4+git20170702-4fnu0)
+  * man page: true colour and scaling of the 1920x1080 skins
+
+ -- Frank Neumann <fnu@vdr-portal.de>  Sat, 24 Oct 2026 13:00:00 +0200
+
 vdr-skin-anthra-common (2026.10.23) trixie; urgency=medium
 
   * vdr-skin-anthra-update: build the anthra_1920_* skins with screenBase
